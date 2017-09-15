@@ -95,7 +95,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Products")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Products")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Products")
 
-
+set(LIBRARY_SEARCH_DIRECTORY "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}" "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Release" "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Debug")
 
 ###############################################################################
 #    C O M P I L E R   A N D   S Y S T E M  S P E C I F I C   O P T I O N S
@@ -105,7 +105,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Products")
 # Note that CMAKE_CXX_FLAGS will have been already changed based on
 # CMAKE_BUILD_TYPE, if debug, debug flags are passed
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -pedantic-errors -pedantic -${OPTIMIZATION_FLAG}"  )
+# -fPIC: https://stackoverflow.com/questions/5311515/gcc-fpic-option
+# Position Independent Code means that the generated machine code is not dependent on being located at a specific address in order to work.
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -Wextra -Werror -pedantic-errors -pedantic -${OPTIMIZATION_FLAG}"  )
 
 
 if(UNIX)
@@ -121,6 +124,9 @@ if(UNIX)
   endif()
 endif()
 
+
+set(LINKER_FLAGS "-Wall -pedantic")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${LINKER_FLAGS}")
 
 
 ###############################################################################
@@ -141,6 +147,8 @@ endif()
 # add the binary tree to the search path for include files
 # so that we will find the source files
 INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR}/src )
+
+add_subdirectory(${CMAKE_SOURCE_DIR}/src )
 
 #CXXFLAGS   = -std=c++11  -stdlib=libc++ \
              #-Wall -Wextra -Werror -pedantic-errors -pedantic \
@@ -286,6 +294,9 @@ MESSAGE( STATUS "CMAKE_C_FLAGS: " ${CMAKE_C_FLAGS} )
 
 # the compiler flags for compiling C++ sources 
 MESSAGE( STATUS "CMAKE_CXX_FLAGS: " ${CMAKE_CXX_FLAGS} )
+
+
+MESSAGE( STATUS "CMAKE_EXE_LINKER_FLAGS: " ${CMAKE_EXE_LINKER_FLAGS} )
 
 
 # Choose the type of build.  Example: SET(CMAKE_BUILD_TYPE Debug) 
