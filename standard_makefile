@@ -1,0 +1,105 @@
+# Requires the following project directory structure:
+#  /bin
+#  /obj
+#  /src
+
+# Use 'make remove' to clean up the whole project
+
+
+CXX        = clang++
+# -arch x86_64
+CXXFLAGS   = -std=c++11  -stdlib=libc++ \
+             -Wall -Wextra -Werror -pedantic-errors -pedantic \
+             -O2 # \
+             # -g
+
+LD         = clang++ -o
+LDFLAGS    = -Wall -pedantic
+
+
+# Folders
+SRCDIR := src
+BUILDDIR := build
+TARGETDIR := bin
+
+# Name of target file
+EXECUTABLE := CppTest
+TARGET := $(TARGETDIR)/$(EXECUTABLE)
+
+# Final Paths
+# INSTALLBINDIR := /usr/local/bin
+
+SRCEXT := cpp
+INCEXT := hpp
+OBJEXT := o  # Funny, this fails with cxx extension, it probably infers that it's supposed to be a c++ file and fails
+# Non recursive: SOURCES   := $(wildcard $(SRCDIR)/*.cpp)
+# Recurvise
+SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
+OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.$(OBJEXT)))
+# OBJECTS   := $(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.cxx)
+
+# Non-recusive: INCLUDES  := $(wildcard $(SRCDIR)/*.hpp)
+INCLUDES := $(shell find $(SRCDIR) -type f -name *.$(INCEXT))
+
+# Folder Lists
+# Note: Intentionally excludes the root of the include folder so the lists are clean
+# INCDIRS := $(shell find include/**/* -name '*.h' -exec dirname {} \; | sort | uniq)
+# INCLIST := $(patsubst include/%,-I include/%,$(INCDIRS))
+# BUILDLIST := $(patsubst include/%,$(BUILDDIR)/%,$(INCDIRS))
+# INC := -I include $(INCLIST) -I /usr/local/include
+# LIB := -L /usr/local/lib -lsantacruzengine -lsantacruzlib -larcadia -lcorinth -lyaml-cpp -lzmq -lhiredis -lbondoas
+LIB :=
+
+
+RM         = rm -f
+
+
+
+
+
+
+#$@ is the name of the file being generated, 
+#and $< the first prerequisite (usually the source file).
+#You can find a list of all these special variables in the GNU Make manual.
+
+#For example, consider the following declaration:
+
+#all: library.cpp main.cpp
+
+#In this case:
+
+    #$@ evaluates to all
+    #$< evaluates to library.cpp
+    #$^ evaluates to library.cpp main.cpp
+
+
+
+# $@ is the target
+# $^ is all objects object
+$(TARGET): $(OBJECTS)
+	@mkdir -p $(TARGETDIR)
+	#@echo "  Linking $(TARGET)"; $(LD) $@ $(LDFLAGS) $^
+	@$(LD) $@ $(LDFLAGS) $^
+	@echo "Linking complete!"
+
+#$(OBJECTS): $(BUILDDIR)/%.cxx : $(SRCDIR)/%.cpp
+#	@mkdir -p $(BUILDDIR)
+#	@$(CXX) $(CXXFLAGS) -c $< -o $@
+#	@echo "Compiled "$<" successfully!"
+
+# Here $@ is the .cxx file and $< is the cpp
+$(BUILDDIR)/%.$(OBJEXT): $(SRCDIR)/%.$(SRCEXT)
+	@mkdir -p $(BUILDDIR)
+	@echo "Compiling $<..."; $(CXX) $(CXXFLAGS) -c $< -o $@
+
+
+
+.PHONY: clean
+clean:
+	@$(RM) $(OBJECTS)
+	@echo "Cleanup complete!"
+
+.PHONY: remove
+remove: clean
+	@$(RM) $(BINDIR)/$(TARGET)
+	@echo "Executable removed!"
