@@ -2,7 +2,7 @@
 #                    P R O J E C T    I N F O
 ###############################################################################
 
-project (CppTest)
+project(CppTest)
 
 cmake_minimum_required (VERSION 2.6)
 
@@ -92,6 +92,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Products")
 
 set(LIBRARY_SEARCH_DIRECTORY "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}" "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Release" "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Debug")
 
+
+
 ###############################################################################
 #    C O M P I L E R   A N D   S Y S T E M  S P E C I F I C   O P T I O N S
 ###############################################################################
@@ -103,7 +105,7 @@ set(LIBRARY_SEARCH_DIRECTORY "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}" "${CMAKE_LIBRAR
 # -fPIC: https://stackoverflow.com/questions/5311515/gcc-fpic-option
 # Position Independent Code means that the generated machine code is not dependent on being located at a specific address in order to work.
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -Wextra -Werror -pedantic-errors -pedantic -${OPTIMIZATION_FLAG}"  )
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -Wextra -Werror -pedantic-errors -pedantic"  )
 
 
 if(UNIX)
@@ -143,13 +145,30 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${LINKER_FLAGS}")
 
 # add the binary tree to the search path for include files
 # so that we will find the source files
-INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR}/src )
+#include_directories(${CppTest_SOURCE_DIR}/src)
+#link_directories(${CppTest_SOURCE_DIR}/src)
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/src )
 
 # add the executable
-add_executable(CppTest src/main.cpp)
+#add_executable(CppTest src/main.cpp)
+#target_link_libraries(CppTest CppTest_src)
+subdirs(src)
 
+
+#file(
+
+        #GLOB_RECURSE
+
+        #source_files
+
+        #"*.hpp"
+        #"*.cpp"
+
+#)
+#MESSAGE(${source_files})
+## add_executable(CppTest ${source_files})
+
+#add_executable(CppTest src/main.cpp)
 
 
 

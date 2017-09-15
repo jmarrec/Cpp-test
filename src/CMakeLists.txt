@@ -1,7 +1,7 @@
 # TODO: Is any of that needed?!
 # What needs to go into this file?
 
-set(target_name, cpptest_src)
+set(target_name, CppTest_src)
 
 include_directories(${CppTest_SOURCE_DIR}/src)
 
@@ -17,20 +17,21 @@ message("CppTest_SOURCE_DIR=" ${CppTest_SOURCE_DIR})
     #"*.cpp"
 #)
 
-set(CppTest_SRC
+set(CppTest_SRC_files
   Boy.cpp
   Boy.hpp
   Girl.cpp
   Girl.hpp
   Person.cpp
   Person.hpp
-  main.cpp   # TODO: ??
+  # main.cpp   # TODO: include??
   )
 
 
-message("CppTest_SRC=" ${CppTest_SRC})
+message("CppTest_SRC=" ${CppTest_SRC_files})
 # TODO: ??
-add_library(${target_name} ${CppTest_SRC})
+add_library(${target_name} ${CppTest_SRC_files})
 
 # TODO: Here? Or in ../CMakeLists.txt?
 add_executable(CppTest main.cpp)
+target_link_libraries(CppTest ${target_name})
