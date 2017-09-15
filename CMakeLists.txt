@@ -119,7 +119,7 @@ if(UNIX)
   endif()
 endif()
 
-
+# Do I need -stdlib=libc++ -lc++abi ?
 set(LINKER_FLAGS "-Wall -pedantic")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${LINKER_FLAGS}")
 
@@ -139,20 +139,13 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${LINKER_FLAGS}")
 ###############################################################################
 
 
+# TODO: very confused about this section...
+
 # add the binary tree to the search path for include files
 # so that we will find the source files
 INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR}/src )
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/src )
-
-#CXXFLAGS   = -std=c++11  -stdlib=libc++ \
-             #-Wall -Wextra -Werror -pedantic-errors -pedantic \
-             #-O2 # \
-             ## -g
-
-#LD         = clang++ -o
-#LDFLAGS    = -Wall -pedantic
-
 
 # add the executable
 add_executable(CppTest src/main.cpp)
