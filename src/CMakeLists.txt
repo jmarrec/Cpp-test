@@ -1,11 +1,9 @@
 # TODO: Is any of that needed?!
 # What needs to go into this file?
 
-set(target_name, CppTest_src)
+set(target_name CppTestLib)
 
-include_directories(${CppTest_SOURCE_DIR}/src)
-
-message("CppTest_SOURCE_DIR=" ${CppTest_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 
 # This complains about Policy CMP0037:
@@ -24,12 +22,9 @@ set(CppTest_SRC_files
   Girl.hpp
   Person.cpp
   Person.hpp
-  # main.cpp   # TODO: include??
   )
 
 
-message("CppTest_SRC=" ${CppTest_SRC_files})
-# TODO: ??
 add_library(${target_name} ${CppTest_SRC_files})
 
 # TODO: Here? Or in ../CMakeLists.txt?
