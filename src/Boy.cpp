@@ -15,9 +15,5 @@ Boy::Boy(int age, std::string name) : Person(age, name, false) {
 
 void Boy::isPretty() const {
   // this->name fails because it's a private member of Person
-  if (this->getName() == "Julien") {
-    std::cout << "Julien is always pretty" << std::endl;
-  } else {
-    std::cout << "Boy is pretty? " << this->is_pretty << std::endl;
-  }
+  std::cout << "Boy " << getName() << " is pretty? " << this->is_pretty << std::endl;
 }
