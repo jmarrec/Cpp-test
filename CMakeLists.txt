@@ -68,11 +68,6 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 endif()
 
 
-# Set a default optimization flag and constraint its values
-# Options
-set( OPTIMIZATION_FLAG "O2" CACHE STRING "Optimization Flag")
-set_property(CACHE OPTIMIZATION_FLAG PROPERTY STRINGS "None" "O1" "O2" "O3")
-
 option( DUMMY_OPTION "Dummy Option" OFF )
 option( DUMMY_ADVANCED_OPTION "Dummy Advanced Option" OFF )
 mark_as_advanced( DUMMY_ADVANCED_OPTION )
